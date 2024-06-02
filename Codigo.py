@@ -1,13 +1,57 @@
 import pygame
 import sys
+import pygame as pg
 
 pygame.init()
-
-# Configuración de la pantalla
-screen_width = 400
-screen_height = 400
+# Configuración de la pantallaz`
+screen_width = 1920
+screen_height = 1000
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Editor de Matriz 12x12 en Pygame")
+
+class Button:
+    def __init__(self, x=0, y=0, text="", width=200, height=50, elev=6):
+        self.font = pg.font.Font(None, 24)
+        self.text = self.font.render(text, True, "#EEEEEE")
+        self.text_rect = self.text.get_rect()
+
+        self.bottom_rect = pg.Rect((x+elev, y+elev), (width, height))
+        self.top_rect = pg.Rect((x, y), (width, height))
+        self.text_rect.center = self.top_rect.center
+
+        self.hover = False
+        self.pressed = False
+        self.clicked = False
+
+    def update(self):
+        self.clicked = False
+        mouse_pos = pg.mouse.get_pos()
+        if self.top_rect.collidepoint(mouse_pos):
+            self.hover = True
+            if pg.mouse.get_pressed()[0]:
+                self.pressed = True
+            else:
+                if self.pressed:
+                    self.pressed = False
+                    self.clicked = True
+
+        else:
+            self.pressed = False
+            self.hover = False
+
+    def draw(self, display):
+
+        top_rect_color = "#317bcf" if self.hover else "#3194cf"
+        if not self.pressed:
+
+            pg.draw.rect(display, "#1a232e", self.bottom_rect)
+            pg.draw.rect(display, top_rect_color, self.top_rect)
+            self.text_rect.center = self.top_rect.center
+        else:
+            pg.draw.rect(display, top_rect_color, self.bottom_rect)
+            self.text_rect.center = self.bottom_rect.center
+        display.blit(self.text, self.text_rect)
+
 
 # Definir la clase Editor
 class Editor:
@@ -38,12 +82,10 @@ class Editor:
                 pygame.draw.rect(screen, color, rect)
 
 
-# Crear una instancia de la clase Editor con el archivo de texto
 editor = Editor('matriz.txt')
+Boton = Button(x=100, y=300, text="Click Me")
 
 
-
-# Bucle principal
 run = True
 while run:
     for event in pygame.event.get():
@@ -56,14 +98,12 @@ while run:
             if grid_x < len(editor.matriz[0]) and grid_y < len(editor.matriz):
                 editor.matriz[grid_y][grid_x] = (editor.matriz[grid_y][grid_x] + 1) % 5
 
-    # Rellenar el fondo
-    screen.fill((255, 255, 255))
+    screen.fill((0, 0, 0))
 
-    # Dibujar la matriz
     editor.dibujar_matriz()
 
-
-    # Actualizar la pantalla
+    Boton.draw(screen)
+    Boton.update()
     pygame.display.flip()
 
 pygame.quit()
