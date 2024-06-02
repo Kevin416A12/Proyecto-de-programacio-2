@@ -4,13 +4,13 @@ import pygame as pg
 
 pygame.init()
 # Configuración de la pantallaz`
-screen_width = 1920
-screen_height = 1000
+screen_width = 800
+screen_height = 800
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Editor de Matriz 12x12 en Pygame")
 
 class Button:
-    def __init__(self, x=0, y=0, text="", width=200, height=50, elev=6):
+    def __init__(self, x=0, y=0, text="", width= 0, height=0 , elev=6):
         self.font = pg.font.Font(None, 24)
         self.text = self.font.render(text, True, "#EEEEEE")
         self.text_rect = self.text.get_rect()
@@ -83,7 +83,7 @@ class Editor:
 
 
 editor = Editor('matriz.txt')
-Boton = Button(x=100, y=300, text="Click Me")
+Boton = Button(x=360, y=300, text="Click Me", width= 100, height=100)
 
 
 run = True
