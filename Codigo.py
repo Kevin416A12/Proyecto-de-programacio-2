@@ -10,6 +10,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Editor de Matriz 12x12 en Pygame")
 
 class Button:
+    #método constructor de siempre
     def __init__(self, x=0, y=0, text="", width= 0, height=0 , elev=6):
         self.font = pg.font.Font(None, 24)
         self.text = self.font.render(text, True, "#EEEEEE")
@@ -22,7 +23,7 @@ class Button:
         self.hover = False
         self.pressed = False
         self.clicked = False
-
+#Este método no lo tocaría, tal vez solo para agregar una lógica al el botón ser presionado(como cambiar de funcionalidad, color, etc)
     def update(self):
         self.clicked = False
         mouse_pos = pg.mouse.get_pos()
@@ -39,8 +40,8 @@ class Button:
             self.pressed = False
             self.hover = False
 
+#Este método sirve para configurar los botones(Hasta ahora todos llevan el mismo color y sombra)
     def draw(self, display):
-
         top_rect_color = "#317bcf" if self.hover else "#3194cf"
         if not self.pressed:
 
